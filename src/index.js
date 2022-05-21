@@ -7,12 +7,11 @@ const logger = require('./common/logger');
 
 function refreshIzurviveLink() {
     apiService.requestIzurviveLoginEmail()
-        .then(response => {
-            logger.info(response);
+        .then(() => {
             mailService.getIzurviveLoginLink()
                 .then(izurviveLoginLink => {
                     if (izurviveLoginLink) {
-                        logger.log(`New link received : ${izurviveLoginLink}`);
+                        logger.info(`New link received : ${izurviveLoginLink}`);
                         discordBot.sendMessage(`New IZurvive map link : ${izurviveLoginLink}`);
                     } else {
                         logger.error('No login email found.');
