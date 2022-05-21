@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/jonathan-foucher/dayz-discord-bot#readme",
   "dependencies": {
+    "axios": "^0.27.2",
     "discord.js": "^13.7.0",
     "dotenv": "^16.0.1",
     "imap": "^0.8.19",
