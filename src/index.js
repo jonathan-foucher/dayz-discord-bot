@@ -8,6 +8,7 @@ const logger = require('./common/logger');
 function refreshIzurviveLink() {
     apiService.requestIzurviveLoginEmail()
         .then(() => {
+            setTimeout(() => {
             mailService.getIzurviveLoginLink()
                 .then(izurviveLoginLink => {
                     if (izurviveLoginLink) {
@@ -17,6 +18,7 @@ function refreshIzurviveLink() {
                         logger.error('No login email found.');
                     }
                 });
+            }, 1000*10);
         })
         .catch(err => logger.error(err));
 }
