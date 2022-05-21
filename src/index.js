@@ -22,4 +22,4 @@ function refreshIzurviveLink() {
 }
 
 refreshIzurviveLink();
-setInterval(refreshIzurviveLink, 1000 * 60 * 5);
+setInterval(refreshIzurviveLink, 1000 * 60 * 60 * 12);
