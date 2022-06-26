@@ -50,6 +50,9 @@ getNextPage = async (sinceTweetId, paginationToken) => {
 getTweetIds = async (sinceTweetId) => {
     const tweetIds = [];
     const firstPage = await getNextPage(sinceTweetId, null);
+    if (firstPage.data.meta.result_count === 0) {
+        return Promise.resolve([]);
+    }
     firstPage.data.data.forEach(tweet => tweetIds.push(tweet.id));
     let paginationToken = firstPage.data.meta.next_token;
     while (paginationToken) {
