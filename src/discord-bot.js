@@ -11,11 +11,12 @@ client.on('ready', () => {
 
 client.login(botToken);
 
-sendMessage = (message, channelId) => {
+sendMessage = async (message, channelId) => {
     if (client.isReady()) {
-        client.channels.fetch(channelId)
+        await client.channels.fetch(channelId)
             .then(channel => channel.send(message))
             .catch(logger.error);
+        return Promise.resolve(0);
     }
 }
 

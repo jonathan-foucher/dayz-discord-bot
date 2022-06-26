@@ -9,6 +9,7 @@ const {getTweetIds} = require('./twitter-api-service');
 
 const izurviveChannelId = process.env.IZURVIVE_LOGIN_CHANNEL_ID;
 const twitterChannelId = process.env.TWITTER_CHANNEL_ID;
+let isRefreshingDayzTweets = false;
 
 function refreshIzurviveLink() {
     apiService.requestIzurviveLoginEmail()
@@ -29,27 +30,38 @@ function refreshIzurviveLink() {
 }
 
 function refreshDayzTweets() {
-    discordBot.getChannelBotMessages(twitterChannelId)
-        .then(messages => {
-            const tweetMessages = messages.filter(message => message && message.content.match(/^https:\/\/twitter\.com\/DayZ\/status\/\d+$/));
+    if (!isRefreshingDayzTweets) {
+        logger.info('Refreshing tweets');
+        isRefreshingDayzTweets = true;
+        discordBot.getChannelBotMessages(twitterChannelId)
+            .then(messages => {
+                const tweetMessages = messages.filter(message => message && message.content.match(/^https:\/\/twitter\.com\/DayZ\/status\/\d+$/));
 
-            let lastTweetId;
-            if (tweetMessages && tweetMessages.length) {
-                const mostRecentMessage = tweetMessages.reduce(function (prev, current) {
-                    if (current.createdTimestamp > prev.createdTimestamp) {
-                        return current;
-                    } else {
-                        return prev;
-                    }
-                });
-                lastTweetId = mostRecentMessage.content.substring(mostRecentMessage.content.lastIndexOf('/') + 1);
-            }
+                let lastTweetId;
+                if (tweetMessages && tweetMessages.length) {
+                    const mostRecentMessage = tweetMessages.reduce(function (prev, current) {
+                        if (current.createdTimestamp > prev.createdTimestamp) {
+                            return current;
+                        } else {
+                            return prev;
+                        }
+                    });
+                    lastTweetId = mostRecentMessage.content.substring(mostRecentMessage.content.lastIndexOf('/') + 1);
+                }
 
-            getTweetIds(lastTweetId).then(tweetIds =>
-                tweetIds.forEach(tweetId =>
-                    discordBot.sendMessage(`https://twitter.com/DayZ/status/${tweetId}`, twitterChannelId)
-                ));
-        });
+                const promisesArray = [];
+                getTweetIds(lastTweetId).then(tweetIds =>
+                    tweetIds.forEach(tweetId =>
+                        promisesArray.push(discordBot.sendMessage(`https://twitter.com/DayZ/status/${tweetId}`, twitterChannelId))
+                    ));
+
+                Promise.all(promisesArray)
+                    .then((res) => {
+                        logger.info(`Tweets refreshed - ${res.length} tweets has been sent`);
+                        isRefreshingDayzTweets = false;
+                    });
+            });
+    }
 }
 
 refreshIzurviveLink();
