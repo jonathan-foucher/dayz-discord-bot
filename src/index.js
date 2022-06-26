@@ -34,7 +34,7 @@ function refreshDayzTweets() {
         logger.info('Refreshing tweets');
         isRefreshingDayzTweets = true;
         discordBot.getChannelBotMessages(twitterChannelId)
-            .then(messages => {
+            .then(async function (messages) {
                 const tweetMessages = messages.filter(message => message && message.content.match(/^https:\/\/twitter\.com\/DayZ\/status\/\d+$/));
 
                 let lastTweetId;
@@ -49,17 +49,12 @@ function refreshDayzTweets() {
                     lastTweetId = mostRecentMessage.content.substring(mostRecentMessage.content.lastIndexOf('/') + 1);
                 }
 
-                const promisesArray = [];
-                getTweetIds(lastTweetId).then(tweetIds =>
-                    tweetIds.forEach(tweetId =>
-                        promisesArray.push(discordBot.sendMessage(`https://twitter.com/DayZ/status/${tweetId}`, twitterChannelId))
-                    ));
-
-                Promise.all(promisesArray)
-                    .then((res) => {
-                        logger.info(`Tweets refreshed - ${res.length} tweets has been sent`);
-                        isRefreshingDayzTweets = false;
-                    });
+                const tweetIds = await getTweetIds(lastTweetId);
+                for (const tweetId of tweetIds) {
+                    await discordBot.sendMessage(`https://twitter.com/DayZ/status/${tweetId}`, twitterChannelId);
+                }
+                logger.info(`Tweets refreshed - ${tweetIds.length} tweets has been sent`);
+                isRefreshingDayzTweets = false;
             });
     }
 }
