@@ -53,7 +53,7 @@ function refreshDayzTweets() {
                 for (const tweetId of tweetIds) {
                     await discordBot.sendMessage(`https://twitter.com/DayZ/status/${tweetId}`, twitterChannelId);
                 }
-                logger.info(`Tweets refreshed - ${tweetIds.length} tweets has been sent`);
+                logger.info(`Tweets refreshed - ${tweetIds.length} tweets have been sent`);
                 isRefreshingDayzTweets = false;
             });
     }
