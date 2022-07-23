@@ -2,10 +2,10 @@
 A discord bot for DayZ game.
 
 ### IZurvive map connexion links
-The bot will post a fresh ![IZurvive](https://www.izurvive.com/) connexion link every 12 hours in the chosen channel.
+The bot will post a fresh [IZurvive](https://www.izurvive.com/) connexion link every 12 hours in the chosen channel.
 
 ### Follow DayZ Twitter account
-The bot allows you to get all the tweets from ![DayZ](https://twitter.com/DayZ) official account in a Discord channel of your choice.
+The bot allows you to get all the tweets from [DayZ](https://twitter.com/DayZ) official account in a Discord channel of your choice.
 
 # Install the project
 Install nodejs and run `npm i` to install the required modules.
