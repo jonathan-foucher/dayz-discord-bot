@@ -62,5 +62,7 @@ function refreshDayzTweets() {
 refreshIzurviveLink();
 setInterval(refreshIzurviveLink, 1000 * 60 * 60 * 12);
 
-setTimeout(() => refreshDayzTweets(), 5000);
-setInterval(refreshDayzTweets, 1000 * 60 * 15);
+if (process.env.TWITTER_ENABLED) {
+    setTimeout(() => refreshDayzTweets(), 5000);
+    setInterval(refreshDayzTweets, 1000 * 60 * 15);
+}

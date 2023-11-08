@@ -18,6 +18,7 @@ To provide the environment variables, just make a copy of the .env.template file
 <br>**EMAIL_PORT**: The port for the e-mail address imap server
 <br>**DISCORD_BOT_TOKEN**: The discord bot token
 <br>**IZURVIVE_LOGIN_CHANNEL_ID**: The channel id where the bot will post the IZurvive connexion links
+<br>**TWITTER_ENABLED**: Activate the DayZ tweets (disabled by default)
 <br>**TWITTER_CHANNEL_ID**: The channel id where the bot will post the DayZ tweets
 <br>**TWITTER_API_KEY**: The Twitter API key
 <br>**TWITTER_API_KEY_SECRET**: The Twitter API key's secret
@@ -43,6 +44,8 @@ To protect it, I also recommend to post the links in a private channel where onl
 <img src="resources/img/izurvive-connexion-example.png" alt="Example for IZurvive connexion links"/>
 
 ### Follow DayZ Twitter account
+
+You need to enable it with `TWITTER_ENABLED` environment variable set to true
 
 The bot will send all the DayZ tweets (as old as Twitter's APi allows us to get) and will post them on the chosen channel.
 It's really useful to be alerted of the latest news, especially for updates, technical problems, servers down alerts and public servers/characters wipes.
